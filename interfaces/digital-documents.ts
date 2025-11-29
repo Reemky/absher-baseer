@@ -1,4 +1,5 @@
 import { LinearGradientProps } from 'expo-linear-gradient';
+import { ImageSourcePropType } from 'react-native';
 
 export interface IDigitalDocumentItem {
 	id: number;
@@ -7,5 +8,6 @@ export interface IDigitalDocumentItem {
 		background: LinearGradientProps['colors'];
 		logoTint: string;
 	};
+	images?: ImageSourcePropType[];
 	onPress?: () => void;
 }

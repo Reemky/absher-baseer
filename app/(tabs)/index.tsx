@@ -1,20 +1,38 @@
 import { ABList } from '@/components/common/list';
 import { ABScreenLayout } from '@/components/common/screen-layout';
 import { DigitalDocumentItem } from '@/components/digital-document-item';
+import { DigitalDocumentsModal } from '@/components/digital-documents-modal';
 import { ABUserCard } from '@/components/user-card';
 import { DIGITAL_DOCUMENTS_ITEMS } from '@/constants/digital-documents';
 import { IDigitalDocumentItem } from '@/interfaces/digital-documents';
-import { ListRenderItem, StyleSheet, View } from 'react-native';
+import { useCallback, useState } from 'react';
+import {
+	ImageSourcePropType,
+	ListRenderItem,
+	StyleSheet,
+	View,
+} from 'react-native';
 
 export default function HomeScreen() {
+	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+	const [modalImages, setModalImages] = useState<ImageSourcePropType[]>([]);
+
+	const openDigitalDocumentsModal = useCallback(
+		(item: IDigitalDocumentItem) => {
+			const { images } = item;
+			setModalImages(images ?? []);
+			setIsModalVisible(true);
+		},
+		[]
+	);
+
 	const renderItem: ListRenderItem<IDigitalDocumentItem> = ({ item }) => {
-		const onPressItem = () => {
-			return;
-		};
+		const onPressItem = () => openDigitalDocumentsModal(item);
 
 		return <DigitalDocumentItem {...item} onPress={onPressItem} />;
 	};
 
+	const onCloseModal = () => setIsModalVisible(false);
 	return (
 		<ABScreenLayout withGradient>
 			<View style={styles.container}>
@@ -35,6 +53,11 @@ export default function HomeScreen() {
 					horizontal
 				/>
 			</View>
+			<DigitalDocumentsModal
+				visible={isModalVisible}
+				images={modalImages}
+				onClose={onCloseModal}
+			/>
 		</ABScreenLayout>
 	);
 }

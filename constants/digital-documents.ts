@@ -5,6 +5,10 @@ export const DIGITAL_DOCUMENTS_ITEMS: IDigitalDocumentItem[] = [
 		id: 1,
 		title: 'هوية صحية (بَصير)',
 		colors: { background: ['#fff99eff', '#fffef3ff'], logoTint: '#cbc025ff' },
+		images: [
+			require('@/assets/images/medical-id-front.png'),
+			require('@/assets/images/medical-id-back.png'),
+		],
 	},
 	{
 		id: 2,
