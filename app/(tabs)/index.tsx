@@ -1,32 +1,64 @@
-import { StyleSheet, Text } from 'react-native';
-
-import { ScreenLayout } from '@/components/screen-layout';
+import { ABList } from '@/components/common/list';
+import { ABScreenLayout } from '@/components/common/screen-layout';
+import { DigitalDocumentItem } from '@/components/digital-document-item';
+import { ABUserCard } from '@/components/user-card';
+import { DIGITAL_DOCUMENTS_ITEMS } from '@/constants/digital-documents';
+import { IDigitalDocumentItem } from '@/interfaces/digital-documents';
+import { ListRenderItem, StyleSheet, View } from 'react-native';
 
 export default function HomeScreen() {
+	const renderItem: ListRenderItem<IDigitalDocumentItem> = ({ item }) => {
+		const onPressItem = () => {
+			return;
+		};
+
+		return <DigitalDocumentItem {...item} onPress={onPressItem} />;
+	};
+
 	return (
-		<ScreenLayout withGradient>
-			<Text style={{ fontSize: 22, fontWeight: '600' }}>
-				Welcome princess 💙
-			</Text>
-		</ScreenLayout>
+		<ABScreenLayout withGradient>
+			<View style={styles.container}>
+				<View style={styles.layoutPaddingHorizontal}>
+					<ABUserCard />
+				</View>
+
+				<ABList
+					header={{
+						title: 'وثائقي الرقمية',
+						action: {
+							title: 'عرض الكل',
+						},
+					}}
+					data={DIGITAL_DOCUMENTS_ITEMS}
+					renderItem={renderItem}
+					contentContainerStyle={styles.layoutPaddingHorizontal}
+					horizontal
+				/>
+			</View>
+		</ABScreenLayout>
 	);
 }
 
 const styles = StyleSheet.create({
-	titleContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 8,
+	container: {
+		flex: 1,
+		gap: 25,
 	},
-	stepContainer: {
-		gap: 8,
-		marginBottom: 8,
+	layoutPaddingHorizontal: {
+		paddingHorizontal: 20,
 	},
-	reactLogo: {
-		height: 178,
-		width: 290,
-		bottom: 0,
-		left: 0,
-		position: 'absolute',
+	itemContainer: {
+		backgroundColor: 'red',
+		alignItems: 'flex-start',
+		paddingHorizontal: 15,
+		paddingTop: 10,
+		height: 105,
+		width: 155,
+		borderRadius: 16,
+		overflow: 'hidden',
+		shadowColor: '#000000ff',
+		shadowOffset: { width: 0, height: 0 },
+		shadowOpacity: 0.1,
+		shadowRadius: 5,
 	},
 });

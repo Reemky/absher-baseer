@@ -2,12 +2,14 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function TabLayout() {
 	function getIconColor(focused: boolean) {
 		return { color: focused ? '#01664F' : '#A8A8A8' };
 	}
+
 	return (
 		<Tabs
 			screenOptions={{
@@ -18,26 +20,12 @@ export default function TabLayout() {
 			}}
 		>
 			<Tabs.Screen
-				name='explore'
+				name='index'
 				options={{
-					title: 'Explore',
+					title: 'الرئيسية',
 					tabBarIcon: ({ focused }) => (
-						<Ionicons
-							name='settings-outline'
-							size={28}
-							{...getIconColor(focused)}
-						/>
-					),
-				}}
-			/>
-
-			<Tabs.Screen
-				name='test1'
-				options={{
-					title: 'test1',
-					tabBarIcon: ({ focused }) => (
-						<Ionicons
-							name='people-circle-outline'
+						<MaterialCommunityIcons
+							name='home'
 							size={28}
 							{...getIconColor(focused)}
 						/>
@@ -45,37 +33,24 @@ export default function TabLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name='test2'
+				name='my-services'
 				options={{
-					title: 'test2',
-					tabBarIcon: ({ focused }) => (
-						<Ionicons
-							name='people-outline'
-							size={28}
-							{...getIconColor(focused)}
-						/>
-					),
-				}}
-			/>
-			<Tabs.Screen
-				name='test3'
-				options={{
-					title: 'test3',
+					title: 'خدماتي',
 					tabBarIcon: ({ focused }) => (
 						<Ionicons
 							name='person-outline'
-							size={28}
+							size={22}
 							{...getIconColor(focused)}
 						/>
 					),
 				}}
 			/>
 			<Tabs.Screen
-				name='index'
+				name='other-services'
 				options={{
-					title: 'Home',
+					title: 'خدمات أخرى',
 					tabBarIcon: ({ focused }) => (
-						<Ionicons name='home' size={28} {...getIconColor(focused)} />
+						<Ionicons name='list' size={28} {...getIconColor(focused)} />
 					),
 				}}
 			/>
