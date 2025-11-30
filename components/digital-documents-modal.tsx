@@ -1,11 +1,9 @@
-// DocumentDisplayModal.tsx
 import {
 	DOCUMENT_HEIGHT,
 	DOCUMENT_WIDTH,
 	MODAL_VERTICAL_GAP,
 	MODAL_WIDTH,
 } from '@/constants/documents-display-modal';
-import { IDocumentDisplayModalProps } from '@/interfaces/digital-documents-display-modal';
 import React, { useMemo } from 'react';
 import {
 	Image,
@@ -16,88 +14,91 @@ import {
 	View,
 } from 'react-native';
 
-export const DigitalDocumentsModal: React.FC<IDocumentDisplayModalProps> =
-	React.memo(function DocumentDisplayModal({ visible, onClose, images }) {
-		const preparedImages = useMemo<ImageSourcePropType[]>(() => {
-			if (!images || images.length === 0)
-				return [
-					require('@/assets/images/fallback-document.png'),
-					require('@/assets/images/fallback-document.png'),
-				];
-			if (images.length === 1) return [images[0], images[0]];
+export const DigitalDocumentsModal: React.FC<{
+	visible: boolean;
+	images: ImageSourcePropType[];
+	onClose: () => void;
+}> = React.memo(function DocumentDisplayModal({ visible, onClose, images }) {
+	const preparedImages = useMemo<ImageSourcePropType[]>(() => {
+		if (!images || images.length === 0)
+			return [
+				require('@/assets/images/fallback-document.png'),
+				require('@/assets/images/fallback-document.png'),
+			];
+		if (images.length === 1) return [images[0], images[0]];
 
-			return images.slice(0, 2);
-		}, [images]);
+		return images.slice(0, 2);
+	}, [images]);
 
-		const bottomImage = preparedImages[0];
-		const topImage = preparedImages[1];
+	const bottomImage = preparedImages[0];
+	const topImage = preparedImages[1];
 
-		return (
-			<Modal
-				visible={visible}
-				animationType='fade'
-				transparent
-				statusBarTranslucent
-				onRequestClose={onClose}
-				hardwareAccelerated
-			>
-				<View style={styles.modalRoot} accessible>
-					<View style={styles.overlay} />
-					<Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
+	return (
+		<Modal
+			visible={visible}
+			animationType='fade'
+			transparent
+			statusBarTranslucent
+			onRequestClose={onClose}
+			hardwareAccelerated
+		>
+			<View style={styles.modalRoot} accessible>
+				<View style={styles.overlay} />
+				<Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
 
-					<View style={styles.center}>
-						<View style={styles.stackContainer}>
-							{/* Bottom Card (Index 0)  */}
-							<View
-								style={[
-									styles.cardWrapper,
-									{
-										zIndex: 1,
-										transform: [
-											{
-												translateY:
-													DOCUMENT_HEIGHT / 2 + MODAL_VERTICAL_GAP,
-											},
-										],
-									},
-								]}
-							>
-								<Image
-									source={bottomImage}
-									style={styles.cardImage}
-									resizeMode='cover'
-								/>
-							</View>
+				<View style={styles.center}>
+					<View style={styles.stackContainer}>
+						{/* Bottom Card (Index 0)  */}
+						<View
+							style={[
+								styles.cardWrapper,
+								{
+									zIndex: 1,
+									transform: [
+										{
+											translateY:
+												DOCUMENT_HEIGHT / 2 + MODAL_VERTICAL_GAP,
+										},
+									],
+								},
+							]}
+						>
+							<Image
+								source={bottomImage}
+								style={styles.cardImage}
+								resizeMode='cover'
+							/>
+						</View>
 
-							{/* Top Card (Index 1) */}
-							<View
-								style={[
-									styles.cardWrapper,
-									{
-										zIndex: 2,
-										transform: [
-											{
-												translateY: -(
-													DOCUMENT_HEIGHT / 2 +
-													MODAL_VERTICAL_GAP
-												),
-											},
-										],
-									},
-								]}
-							>
-								<Image
-									source={topImage}
-									style={styles.cardImage}
-									resizeMode='cover'
-								/>
-							</View>
+						{/* Top Card (Index 1) */}
+						<View
+							style={[
+								styles.cardWrapper,
+								{
+									zIndex: 2,
+									transform: [
+										{
+											translateY: -(
+												DOCUMENT_HEIGHT / 2 +
+												MODAL_VERTICAL_GAP
+											),
+										},
+									],
+								},
+							]}
+						>
+							<Image
+								source={topImage}
+								style={styles.cardImage}
+								resizeMode='cover'
+							/>
 						</View>
 					</View>
 				</View>
-			</Modal>
-		);
-	});
+			</View>
+		</Modal>
+	);
+});
 
 const styles = StyleSheet.create({
 	modalRoot: {

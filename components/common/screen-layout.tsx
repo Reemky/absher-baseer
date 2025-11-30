@@ -4,7 +4,7 @@ import { PropsWithChildren } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export const ABScreenLayout = ({
+export const ScreenLayout = ({
 	withGradient = false,
 	children,
 }: PropsWithChildren<{ withGradient?: boolean }>): React.JSX.Element => {

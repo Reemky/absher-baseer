@@ -1,8 +1,8 @@
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { ABText } from './common/text';
+import { Text } from './common/text';
 
-export const ABUserCard = () => {
+export const UserCard = () => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.content}>
@@ -14,12 +14,12 @@ export const ABUserCard = () => {
 					/>
 
 					<View style={styles.infoText}>
-						<ABText weight='Bold' style={styles.name}>
+						<Text weight='Bold' style={styles.name}>
 							مهند عبدالرحمن محمد آل ظاهر
-						</ABText>
-						<ABText weight='Regular' style={styles.nationalID}>
+						</Text>
+						<Text weight='Regular' style={styles.nationalID}>
 							رقم الهوية: 1234567890
-						</ABText>
+						</Text>
 					</View>
 				</View>
 

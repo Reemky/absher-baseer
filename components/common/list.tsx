@@ -7,31 +7,35 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import { ABText } from './text';
+import { Text } from './text';
 
-export type ABListProps<T extends { id: number }> = {
-	header?: { title: string; action?: { title: string; onPress?: () => void } };
-	action?: string;
-	data: readonly T[];
-	renderItem: ListRenderItem<T>;
-} & Omit<FlatListProps<T>, 'data' | 'renderItem' | 'keyExtractor'>;
-
-export const ABList = <T extends { id: number }>({
+export const List = <T extends { id: number }>({
 	header,
 	action,
 	data,
 	renderItem,
 	...rest
-}: ABListProps<T>) => {
+}: {
+	header?: {
+		title: string;
+		action?: {
+			title: string;
+			onPress?: () => void;
+		};
+	};
+	action?: string;
+	data: readonly T[];
+	renderItem: ListRenderItem<T>;
+} & Omit<FlatListProps<T>, 'data' | 'renderItem' | 'keyExtractor'>) => {
 	const keyExtractor = (item: T, index: number) => `${item?.id}-${index}`;
 
 	return (
 		<View style={styles.container}>
 			{header && header?.title && (
 				<View style={styles.headerContainer}>
-					<ABText weight='Bold' style={styles.headerTitle}>
+					<Text weight='Bold' style={styles.headerTitle}>
 						{header.title}
-					</ABText>
+					</Text>
 
 					{header?.action && (
 						<TouchableOpacity
@@ -39,9 +43,9 @@ export const ABList = <T extends { id: number }>({
 								onPress: header.action.onPress,
 							})}
 						>
-							<ABText weight='Medium' style={styles.actionTitle}>
+							<Text weight='Medium' style={styles.actionTitle}>
 								{header.action?.title}
-							</ABText>
+							</Text>
 						</TouchableOpacity>
 					)}
 				</View>

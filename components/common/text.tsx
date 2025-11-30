@@ -3,16 +3,16 @@ import { Text as RNText, TextProps } from 'react-native';
 
 type TFontWeight = 'Light' | 'Regular' | 'Medium' | 'SemiBold' | 'Bold';
 
-interface IABTextProps extends TextProps {
+interface ITextProps extends TextProps {
 	weight?: TFontWeight;
 }
 
-export const ABText = ({
+export const Text = ({
 	children,
 	style: propsStyle,
 	weight = 'Medium',
 	...props
-}: PropsWithChildren<IABTextProps>): React.JSX.Element => {
+}: PropsWithChildren<ITextProps>): React.JSX.Element => {
 	return (
 		<RNText
 			{...props}

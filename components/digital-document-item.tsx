@@ -1,4 +1,4 @@
-import { ABText } from '@/components/common/text'; // Assuming ABText path
+import { Text } from '@/components/common/text'; // Assuming Text path
 import { IDigitalDocumentItem } from '@/interfaces/digital-documents';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
@@ -30,7 +30,7 @@ export const DigitalDocumentItem: React.FC<IDigitalDocumentItem> = ({
 					resizeMode='contain'
 				/>
 
-				<ABText weight='Bold'>{title}</ABText>
+				<Text weight='Bold'>{title}</Text>
 			</View>
 		</TouchableOpacity>
 	);
