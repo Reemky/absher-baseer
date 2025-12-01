@@ -1,6 +1,5 @@
-// components/quick-action-item.tsx
 import { Text } from '@/components/common/text';
-import { IQuickActionItem } from '@/interfaces/quick-actions';
+import { IQuickActionItem } from '@/interfaces/quick-action-item';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
@@ -12,7 +11,7 @@ export const QuickActionItem: React.FC<
 			<TouchableOpacity style={styles.card} onPress={onPress}>
 				<View style={styles.iconContainer}>{icon}</View>
 
-				<Text weight='Bold' style={styles.title}>
+				<Text weight='Bold' style={styles.title} numberOfLines={2}>
 					{title}
 				</Text>
 			</TouchableOpacity>
@@ -22,15 +21,15 @@ export const QuickActionItem: React.FC<
 
 const styles = StyleSheet.create({
 	wrapper: {
+		width: '49%',
 		shadowColor: '#1F1F1F',
 		shadowOffset: { width: 0, height: 0 },
-		shadowOpacity: 0.01,
+		shadowOpacity: 0.1,
 		shadowRadius: 3,
 		elevation: 3,
 	},
 	card: {
-		width: 160,
-		height: 105,
+		alignSelf: 'stretch',
 		backgroundColor: '#FFFFFF',
 		borderRadius: 16,
 		alignItems: 'flex-start',
@@ -39,6 +38,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 		gap: 6,
 		overflow: 'hidden',
+		height: 110,
 	},
 	iconContainer: {
 		width: 32,
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	title: {
-		fontSize: 14,
+		fontSize: 12,
+		textAlign: 'left',
 	},
 });

@@ -17,6 +17,7 @@ export default function TabLayout() {
 				tabBarInactiveTintColor: '#A8A8A8',
 				headerShown: false,
 				tabBarButton: HapticTab,
+				animation: 'shift',
 			}}
 		>
 			<Tabs.Screen
@@ -30,6 +31,14 @@ export default function TabLayout() {
 							{...getIconColor(focused)}
 						/>
 					),
+				}}
+			/>
+			<Tabs.Screen
+				name='id-management'
+				options={{
+					// setting href: null hides the tab button. This is only to replicate Absher app behavior as much as possible
+					href: null,
+					title: 'إدارة الهوية الصحية',
 				}}
 			/>
 			<Tabs.Screen
@@ -50,7 +59,11 @@ export default function TabLayout() {
 				options={{
 					title: 'خدمات أخرى',
 					tabBarIcon: ({ focused }) => (
-						<Ionicons name='list' size={28} {...getIconColor(focused)} />
+						<Ionicons
+							name='grid-outline'
+							size={22}
+							{...getIconColor(focused)}
+						/>
 					),
 				}}
 			/>

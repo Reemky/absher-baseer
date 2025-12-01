@@ -1,9 +1,10 @@
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
 
 import { useAppFonts } from '@/hooks/use-app-fonts';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useEffect } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export const unstable_settings = {
 	anchor: '(tabs)',
@@ -23,11 +24,17 @@ export default function RootLayout() {
 	}
 
 	return (
-		<>
-			<Stack>
-				<Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-			</Stack>
-			<StatusBar style='auto' />
-		</>
+		<GestureHandlerRootView>
+			<BottomSheetModalProvider>
+				<Stack
+					screenOptions={{
+						headerShown: false,
+					}}
+				>
+					<Stack.Screen name='(tabs)' />
+				</Stack>
+				<StatusBar style='auto' />
+			</BottomSheetModalProvider>
+		</GestureHandlerRootView>
 	);
 }

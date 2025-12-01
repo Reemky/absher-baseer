@@ -1,14 +1,26 @@
+import { Text } from '@/components/common/text';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import { PropsWithChildren } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+// components/ScreenLayout.tsx
 
 export const ScreenLayout = ({
+	title = '',
+	showDefaultIcons = false,
+	hasBackButton = false,
 	withGradient = false,
 	children,
-}: PropsWithChildren<{ withGradient?: boolean }>): React.JSX.Element => {
+}: PropsWithChildren<{
+	title?: string;
+	showDefaultIcons?: boolean;
+	withGradient?: boolean;
+	hasBackButton?: boolean;
+}>): React.JSX.Element => {
 	const { top: safeAreaPaddingTop } = useSafeAreaInsets();
+	const handleBackPress = () => router.back();
 
 	return (
 		<View style={[styles.container, { paddingTop: safeAreaPaddingTop }]}>
@@ -24,39 +36,86 @@ export const ScreenLayout = ({
 			)}
 
 			<View style={styles.headerContainer}>
-				{/* Logos */}
-				<View style={styles.logosContainer}>
-					<Image
-						source={require('../../assets/icons/ministry-of-interior-logo.png')}
-						style={{ width: 40, height: 40 }}
-						resizeMode='contain'
-					/>
-
-					<Image
-						source={require('../../assets/icons/absher-logo.png')}
-						style={{ width: 60, height: 60 }}
-						resizeMode='contain'
-					/>
+				{/* 1. LEFT SIDE: Back Button OR Logos */}
+				<View
+					style={[styles.controlArea, { justifyContent: 'flex-start' }]}
+				>
+					{hasBackButton ? (
+						<TouchableOpacity
+							onPress={handleBackPress}
+							style={styles.backButtonContainer}
+						>
+							<Ionicons
+								name='chevron-forward-outline'
+								size={30}
+								color='#01664F'
+							/>
+							<Text
+								weight='Medium'
+								style={styles.backButtonText}
+								numberOfLines={1}
+							>
+								الرجوع
+							</Text>
+						</TouchableOpacity>
+					) : showDefaultIcons ? (
+						<View style={styles.logosContainer}>
+							<Image
+								source={require('../../assets/icons/ministry-of-interior-logo.png')}
+								style={{ width: 40, height: 40 }}
+								resizeMode='contain'
+							/>
+							<Image
+								source={require('../../assets/icons/absher-logo.png')}
+								style={{ width: 60, height: 60 }}
+								resizeMode='contain'
+							/>
+						</View>
+					) : (
+						<View style={styles.controlArea} />
+					)}
 				</View>
 
-				{/* Settings & Notifications */}
-				<View style={styles.iconsContainer}>
-					<TouchableOpacity>
-						<Ionicons name='settings-outline' size={28} color='#1E6A4C' />
-					</TouchableOpacity>
+				{title ? (
+					<View style={styles.titleContainer}>
+						<Text
+							weight='Bold'
+							style={styles.titleText}
+							numberOfLines={1}
+						>
+							{title}
+						</Text>
+					</View>
+				) : null}
 
-					<TouchableOpacity>
-						<Ionicons
-							name='notifications-outline'
-							size={28}
-							color='#1E6A4C'
-						/>
-					</TouchableOpacity>
-				</View>
+				{/* 3. RIGHT SIDE: Icons Area */}
+				{showDefaultIcons ? (
+					<View
+						style={[styles.controlArea, { justifyContent: 'flex-end' }]}
+					>
+						<View style={styles.iconsContainer}>
+							<TouchableOpacity>
+								<Ionicons
+									name='settings-outline'
+									size={28}
+									color='#01664F'
+								/>
+							</TouchableOpacity>
+							<TouchableOpacity>
+								<Ionicons
+									name='notifications-outline'
+									size={28}
+									color='#01664F'
+								/>
+							</TouchableOpacity>
+						</View>
+					</View>
+				) : (
+					<View style={styles.controlArea} />
+				)}
 			</View>
 
 			{/* Content */}
-
 			<View style={styles.children}>{children}</View>
 		</View>
 	);
@@ -69,9 +128,21 @@ const styles = StyleSheet.create({
 	headerContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'space-between',
 		paddingHorizontal: 20,
 		paddingBottom: 16,
+	},
+	// This container ensures left and right controls take equal flexible space.
+	controlArea: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	titleContainer: {
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	titleText: {
+		fontSize: 16,
 	},
 	iconsContainer: {
 		flexDirection: 'row',
@@ -81,6 +152,16 @@ const styles = StyleSheet.create({
 	logosContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
+		gap: 5,
+	},
+	backButtonContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	backButtonText: {
+		fontSize: 16,
+		color: '#01664F',
 	},
 	children: {
 		flex: 1,

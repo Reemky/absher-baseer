@@ -1,4 +1,4 @@
-import { IDigitalDocumentItem } from '@/interfaces/digital-documents';
+import { IDigitalDocumentItem } from '@/interfaces/digital-document-item';
 
 export const DIGITAL_DOCUMENTS_ITEMS: IDigitalDocumentItem[] = [
 	{

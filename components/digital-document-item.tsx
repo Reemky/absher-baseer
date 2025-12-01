@@ -1,5 +1,6 @@
 import { Text } from '@/components/common/text'; // Assuming Text path
-import { IDigitalDocumentItem } from '@/interfaces/digital-documents';
+import { IDigitalDocumentItem } from '@/interfaces/digital-document-item';
+
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
