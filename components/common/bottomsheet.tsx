@@ -7,11 +7,14 @@ import {
 } from '@gorhom/bottom-sheet';
 import React, { useCallback } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const BottomSheet = React.forwardRef<
 	BottomSheetModal,
 	{ children: React.ReactNode; onClose: () => void; title?: string }
 >(({ children, onClose, title = '' }, ref) => {
+	const { bottom: safeAreaPaddingBottom } = useSafeAreaInsets();
+
 	const renderBackdrop = useCallback(
 		(backdropProps: BottomSheetBackdropProps) => (
 			<BottomSheetBackdrop
@@ -27,14 +30,15 @@ export const BottomSheet = React.forwardRef<
 	return (
 		<BottomSheetModal
 			ref={ref}
-			index={1}
+			index={0}
 			snapPoints={['90%']}
 			onDismiss={onClose}
 			enablePanDownToClose
+			enableDynamicSizing={false}
 			backdropComponent={renderBackdrop}
 			handleComponent={() => null} // to remove top indicator
 		>
-			<BottomSheetView>
+			<BottomSheetView style={styles.sheetContainer}>
 				<View style={styles.headerContainer}>
 					<View style={styles.leftSpacer} />
 
@@ -55,7 +59,14 @@ export const BottomSheet = React.forwardRef<
 					</TouchableOpacity>
 				</View>
 
-				<View style={styles.content}>{children}</View>
+				<View
+					style={[
+						styles.content,
+						{ paddingBottom: safeAreaPaddingBottom },
+					]}
+				>
+					{children}
+				</View>
 			</BottomSheetView>
 		</BottomSheetModal>
 	);
@@ -64,6 +75,12 @@ export const BottomSheet = React.forwardRef<
 BottomSheet.displayName = 'BottomSheet';
 
 const styles = StyleSheet.create({
+	modalContent: {
+		flex: 1,
+	},
+	sheetContainer: {
+		flex: 1,
+	},
 	headerContainer: {
 		padding: 20,
 		flexDirection: 'row',
@@ -91,5 +108,6 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		paddingHorizontal: 20,
+		minHeight: '90%',
 	},
 });
