@@ -1,11 +1,7 @@
-import {
-	DOCUMENT_HEIGHT,
-	DOCUMENT_WIDTH,
-	MODAL_VERTICAL_GAP,
-	MODAL_WIDTH,
-} from '@/constants/documents-display-modal';
+import { MODAL_VERTICAL_GAP } from '@/constants/documents-display-modal';
 import React, { useMemo } from 'react';
 import {
+	Dimensions,
 	Image,
 	ImageSourcePropType,
 	Modal,
@@ -13,6 +9,17 @@ import {
 	StyleSheet,
 	View,
 } from 'react-native';
+
+const CARD_ASPECT_RATIO = 1013 / 638; // width / height
+
+const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
+
+// Responsive sizing while keeping ratio
+const MAX_CARD_W = SCREEN_W - 16 * 2;
+const MAX_CARD_H = SCREEN_H * 0.6;
+const CARD_W_BY_H = MAX_CARD_H * CARD_ASPECT_RATIO;
+const CARD_WIDTH = Math.min(MAX_CARD_W, CARD_W_BY_H);
+const CARD_HEIGHT = CARD_WIDTH / CARD_ASPECT_RATIO;
 
 export const DigitalDocumentsModal: React.FC<{
 	visible: boolean;
@@ -26,12 +33,14 @@ export const DigitalDocumentsModal: React.FC<{
 				require('@/assets/images/fallback-document.png'),
 			];
 		if (images.length === 1) return [images[0], images[0]];
-
 		return images.slice(0, 2);
 	}, [images]);
 
 	const bottomImage = preparedImages[0];
 	const topImage = preparedImages[1];
+
+	// translate based on computed height (not hardcoded constants)
+	const translateY = CARD_HEIGHT / 2 + MODAL_VERTICAL_GAP;
 
 	return (
 		<Modal
@@ -48,49 +57,39 @@ export const DigitalDocumentsModal: React.FC<{
 
 				<View style={styles.center}>
 					<View style={styles.stackContainer}>
-						{/* Bottom Card (Index 0)  */}
 						<View
 							style={[
 								styles.cardWrapper,
 								{
+									width: CARD_WIDTH,
+									height: CARD_HEIGHT,
 									zIndex: 1,
-									transform: [
-										{
-											translateY:
-												DOCUMENT_HEIGHT / 2 + MODAL_VERTICAL_GAP,
-										},
-									],
-								},
-							]}
-						>
-							<Image
-								source={bottomImage}
-								style={styles.cardImage}
-								resizeMode='cover'
-							/>
-						</View>
-
-						{/* Top Card (Index 1) */}
-						<View
-							style={[
-								styles.cardWrapper,
-								{
-									zIndex: 2,
-									transform: [
-										{
-											translateY: -(
-												DOCUMENT_HEIGHT / 2 +
-												MODAL_VERTICAL_GAP
-											),
-										},
-									],
+									transform: [{ translateY }],
 								},
 							]}
 						>
 							<Image
 								source={topImage}
 								style={styles.cardImage}
-								resizeMode='cover'
+								resizeMode='contain'
+							/>
+						</View>
+
+						<View
+							style={[
+								styles.cardWrapper,
+								{
+									width: CARD_WIDTH,
+									height: CARD_HEIGHT,
+									zIndex: 2,
+									transform: [{ translateY: -translateY }],
+								},
+							]}
+						>
+							<Image
+								source={bottomImage}
+								style={styles.cardImage}
+								resizeMode='contain'
 							/>
 						</View>
 					</View>
@@ -101,9 +100,7 @@ export const DigitalDocumentsModal: React.FC<{
 });
 
 const styles = StyleSheet.create({
-	modalRoot: {
-		flex: 1,
-	},
+	modalRoot: { flex: 1 },
 	overlay: {
 		...StyleSheet.absoluteFillObject,
 		backgroundColor: 'black',
@@ -115,16 +112,11 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	stackContainer: {
-		height: DOCUMENT_HEIGHT * 2 + MODAL_VERTICAL_GAP * 2,
-		width: Math.min(DOCUMENT_WIDTH, MODAL_WIDTH - 48),
 		alignItems: 'center',
 		justifyContent: 'center',
-		position: 'relative',
 	},
 	cardWrapper: {
 		position: 'absolute',
-		width: DOCUMENT_WIDTH,
-		height: DOCUMENT_HEIGHT,
 		borderRadius: 16,
 		overflow: 'hidden',
 		backgroundColor: '#fff',

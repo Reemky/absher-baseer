@@ -8,8 +8,8 @@ export const UserCard = () => {
 			<View style={styles.content}>
 				<View style={styles.infoContainer}>
 					<Image
-						source={require('../assets/images/user-profile-icon.png')}
-						style={{ width: 50, height: 50 }}
+						source={require('../assets/images/user-image.png')}
+						style={{ width: 60, height: 60 }}
 						resizeMode='contain'
 					/>
 
@@ -18,7 +18,7 @@ export const UserCard = () => {
 							مهند عبدالرحمن محمد آل ظاهر
 						</Text>
 						<Text weight='Regular' style={styles.nationalID}>
-							رقم الهوية: 1234567890
+							رقم الهوية: 1010101010
 						</Text>
 					</View>
 				</View>
@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
 	infoContainer: {
 		alignItems: 'center',
 		flexDirection: 'row',
-		gap: 16,
 	},
 	infoText: {
 		alignItems: 'flex-start',
